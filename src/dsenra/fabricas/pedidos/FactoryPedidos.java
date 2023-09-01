@@ -2,7 +2,7 @@ package dsenra.fabricas.pedidos;
 
 import dsenra.domain.Cliente;
 import dsenra.domain.Produto;
-import dsenra.domain.pedidos.ProdutoFisico;
+import dsenra.domain.pedidos.ProdutoCarrinho;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class FactoryPedidos implements IFactoryPedidos {
     }
 
     @Override
-    public List<ProdutoFisico> mostrarCarrinho(Cliente cliente) {
+    public List<ProdutoCarrinho> mostrarCarrinho(Cliente cliente) {
         return cliente.verCarrinho();
     }
 

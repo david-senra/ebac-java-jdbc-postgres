@@ -7,28 +7,28 @@ import java.util.List;
 import java.util.Map;
 
 public class Carrinho {
-    private final Map<Long, ProdutoFisico> listaProdutos = new HashMap<>();
+    private final Map<Long, ProdutoCarrinho> listaProdutos = new HashMap<>();
     private Double precoTotal;
 
     public void adicionarProduto(Produto produto) {
-        ProdutoFisico produtoEncontrado = listaProdutos.get(produto.getId());
-        if (produtoEncontrado == null) listaProdutos.put(produto.getId(), new ProdutoFisico(produto));
+        ProdutoCarrinho produtoEncontrado = listaProdutos.get(produto.getId());
+        if (produtoEncontrado == null) listaProdutos.put(produto.getId(), new ProdutoCarrinho(produto));
         else listaProdutos.get(produto.getId()).aumentaQuantidade();
     }
 
     public void removerProduto(Produto produto) {
-        ProdutoFisico produtoEncontrado = listaProdutos.get(produto.getId());
+        ProdutoCarrinho produtoEncontrado = listaProdutos.get(produto.getId());
         if (produtoEncontrado.getQuantidade() > 1) listaProdutos.get(produto.getId()).reduzQuantidade();
         else listaProdutos.remove(produto.getId());
     }
 
     public Long getQuantityProduto(Produto produto) {
-        ProdutoFisico produtoEncontrado = listaProdutos.get(produto.getId());
+        ProdutoCarrinho produtoEncontrado = listaProdutos.get(produto.getId());
         return produtoEncontrado.getQuantidade();
     }
 
     public Double getPrecoTotalProduto(Produto produto) {
-        ProdutoFisico produtoEncontrado = listaProdutos.get(produto.getId());
+        ProdutoCarrinho produtoEncontrado = listaProdutos.get(produto.getId());
         return produtoEncontrado.getPrecoQuantidade();
     }
 
@@ -38,7 +38,7 @@ public class Carrinho {
         return precoTotal;
     }
 
-    public List<ProdutoFisico> getListaProdutos() {
+    public List<ProdutoCarrinho> getListaProdutos() {
         return listaProdutos.values().stream().toList();
     }
 

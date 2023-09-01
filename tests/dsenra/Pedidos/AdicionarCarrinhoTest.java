@@ -6,7 +6,7 @@ import dsenra.domain.Cliente;
 import dsenra.domain.Produto;
 import dsenra.domain.mock.MockCliente;
 import dsenra.domain.mock.MockProduto;
-import dsenra.domain.pedidos.ProdutoFisico;
+import dsenra.domain.pedidos.ProdutoCarrinho;
 import dsenra.exception.ObjetoNaoEncontradoException;
 import dsenra.fabricas.pedidos.FactoryPedidos;
 import dsenra.fabricas.pedidos.IFactoryPedidos;
@@ -68,10 +68,10 @@ public class AdicionarCarrinhoTest {
 
         Assert.assertEquals(1, mockCliente.verCarrinho().size());
 
-        ProdutoFisico produtoFisico = mockCliente.verCarrinho().get(0);
-        Assert.assertEquals(2, (long) produtoFisico.getQuantidade());
-        Assert.assertEquals((Double) (produtoFisico.getQuantidade() * produtoFisico.getPreco()),
-                produtoFisico.getPrecoQuantidade());
+        ProdutoCarrinho produtoCarrinho = mockCliente.verCarrinho().get(0);
+        Assert.assertEquals(2, (long) produtoCarrinho.getQuantidade());
+        Assert.assertEquals((Double) (produtoCarrinho.getQuantidade() * produtoCarrinho.getPreco()),
+                produtoCarrinho.getPrecoQuantidade());
         clienteDao.listaElementos().clear();
         produtoDao.listaElementos().clear();
     }
@@ -88,11 +88,11 @@ public class AdicionarCarrinhoTest {
 
         Assert.assertEquals(2, mockCliente.verCarrinho().size());
 
-        List<ProdutoFisico> produtosRepetidos = mockCliente.verCarrinho().stream()
+        List<ProdutoCarrinho> produtosRepetidos = mockCliente.verCarrinho().stream()
                 .filter(produto -> Objects.equals(produto.getNome(), mockProduto.getNome())).toList();
         Assert.assertEquals(2, (long) produtosRepetidos.get(0).getQuantidade());
 
-        List<ProdutoFisico> produtoUnico = mockCliente.verCarrinho().stream()
+        List<ProdutoCarrinho> produtoUnico = mockCliente.verCarrinho().stream()
                 .filter(produto -> Objects.equals(produto.getNome(), mockProduto2.getNome())).toList();
         Assert.assertEquals(1, (long) produtoUnico.get(0).getQuantidade());
         clienteDao.listaElementos().clear();

@@ -2,12 +2,12 @@ package dsenra.domain.pedidos;
 
 import dsenra.domain.Produto;
 
-public class ProdutoFisico extends Produto {
+public class ProdutoCarrinho extends Produto {
     private Long quantidade = 1L;
 
     private final Produto produto;
 
-    public ProdutoFisico(Produto produto) {
+    public ProdutoCarrinho(Produto produto) {
         this.codigo = produto.getId();
         this.nome = produto.getNome();
         this.descricao = produto.getDescricao();

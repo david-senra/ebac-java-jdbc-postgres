@@ -2,7 +2,7 @@ package dsenra.domain;
 
 import dsenra.domain.pedidos.Carrinho;
 import dsenra.domain.pedidos.Pedido;
-import dsenra.domain.pedidos.ProdutoFisico;
+import dsenra.domain.pedidos.ProdutoCarrinho;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,13 +118,13 @@ public class Cliente implements IPersistente {
         this.estado = estado;
     }
 
-    public List<ProdutoFisico> verCarrinho() {
+    public List<ProdutoCarrinho> verCarrinho() {
         if (carrinho.getListaProdutos().size() > 0) return carrinho.getListaProdutos();
         else return null;
     }
 
-    public ProdutoFisico buscarNoCarrinho(Produto produto) {
-        Stream<ProdutoFisico> resultadoBusca = carrinho.getListaProdutos().stream()
+    public ProdutoCarrinho buscarNoCarrinho(Produto produto) {
+        Stream<ProdutoCarrinho> resultadoBusca = carrinho.getListaProdutos().stream()
                 .filter(produtoFisico -> produtoFisico.getNome().equals(produto.getNome()));
         return resultadoBusca.toList().get(0);
     }
