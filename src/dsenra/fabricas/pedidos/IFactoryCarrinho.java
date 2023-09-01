@@ -6,7 +6,7 @@ import dsenra.domain.pedidos.ProdutoCarrinho;
 
 import java.util.List;
 
-public interface IFactoryPedidos {
+public interface IFactoryCarrinho {
     void adicionarCarrinho(Cliente cliente, Produto produto);
     void removerCarrinho(Cliente cliente, Produto produto);
     void limparCarrinho(Cliente cliente);

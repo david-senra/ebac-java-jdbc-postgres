@@ -7,8 +7,8 @@ import dsenra.domain.Produto;
 import dsenra.domain.mock.MockCliente;
 import dsenra.domain.mock.MockProduto;
 import dsenra.exception.ObjetoNaoEncontradoException;
-import dsenra.fabricas.pedidos.FactoryPedidos;
-import dsenra.fabricas.pedidos.IFactoryPedidos;
+import dsenra.fabricas.pedidos.FactoryCarrinho;
+import dsenra.fabricas.pedidos.IFactoryCarrinho;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class RemoverCarrinhoTest {
     private Produto mockProduto;
     private Produto mockProduto2;
     private final MockCliente mock = new MockCliente();
-    private final IFactoryPedidos genericFactory = new FactoryPedidos();
+    private final IFactoryCarrinho genericFactory = new FactoryCarrinho();
 
     @Before
     public void init() {

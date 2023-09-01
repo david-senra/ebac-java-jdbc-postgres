@@ -6,7 +6,7 @@ import dsenra.domain.pedidos.ProdutoCarrinho;
 
 import java.util.List;
 
-public class FactoryPedidos implements IFactoryPedidos {
+public class FactoryCarrinho implements IFactoryCarrinho {
     @Override
     public void adicionarCarrinho(Cliente cliente, Produto produto) {
         cliente.adicionarProduto(produto);
