@@ -1,14 +1,15 @@
 package dsenra.fabricas;
 
-import dsenra.dao.IProdutoDao;
+import dsenra.dao.ProdutoDao;
 import dsenra.domain.Produto;
-import dsenra.exception.ObjetoNaoEncontradoException;
+import dsenra.exception.DaoException;
+import dsenra.exception.TipoChaveNaoEncontradaException;
 import dsenra.fabricas.generic.GenericFactory;
 
 public class FactoryProdutos extends GenericFactory<Produto> implements IFactoryProdutos {
-    private final IProdutoDao produtoDao;
+    private final ProdutoDao produtoDao;
 
-    public FactoryProdutos(IProdutoDao produtoDao) {
+    public FactoryProdutos(ProdutoDao produtoDao) {
         this.produtoDao = produtoDao;
     }
 
@@ -16,7 +17,7 @@ public class FactoryProdutos extends GenericFactory<Produto> implements IFactory
     public boolean cadastrar(Produto produto) {
         try {
             produtoDao.cadastrar(produto);
-        } catch (ObjetoNaoEncontradoException e) {
+        } catch (TipoChaveNaoEncontradaException | DaoException e) {
             throw new RuntimeException(e);
         }
         return true;

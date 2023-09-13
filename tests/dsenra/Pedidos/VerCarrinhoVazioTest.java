@@ -6,7 +6,8 @@ import dsenra.domain.Cliente;
 import dsenra.domain.Produto;
 import dsenra.domain.mock.MockCliente;
 import dsenra.domain.mock.MockProduto;
-import dsenra.exception.ObjetoNaoEncontradoException;
+import dsenra.exception.DaoException;
+import dsenra.exception.TipoChaveNaoEncontradaException;
 import dsenra.fabricas.pedidos.FactoryCarrinho;
 import dsenra.fabricas.pedidos.IFactoryCarrinho;
 import org.junit.Assert;
@@ -25,7 +26,7 @@ public class VerCarrinhoVazioTest {
     private final IFactoryCarrinho genericFactory = new FactoryCarrinho();
 
     @Before
-    public void init() {
+    public void init() throws DaoException {
         clienteDao = new ClienteDao();
         clienteDao.listaElementos().clear();
         clienteDao = new ClienteDao();
@@ -38,14 +39,14 @@ public class VerCarrinhoVazioTest {
     }
 
     @Test
-    public void verCarrinhoOriginalmenteVazio() throws ObjetoNaoEncontradoException {
+    public void verCarrinhoOriginalmenteVazio() throws TipoChaveNaoEncontradaException, DaoException {
         clienteDao.cadastrar(mockCliente);
         Assert.assertNull(mockCliente.verCarrinho());
         clienteDao.listaElementos().clear();
         produtoDao.listaElementos().clear();
     }
     @Test
-    public void verCarrinhoOriginalmenteCheioDepoisVazio() throws ObjetoNaoEncontradoException {
+    public void verCarrinhoOriginalmenteCheioDepoisVazio() throws TipoChaveNaoEncontradaException, DaoException {
         clienteDao.cadastrar(mockCliente);
         produtoDao.cadastrar(mockProduto);
         produtoDao.cadastrar(mockProduto2);

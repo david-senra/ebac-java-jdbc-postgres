@@ -1,13 +1,18 @@
 package dsenra.Servicos;
 
-import dsenra.dao.*;
-import dsenra.domain.Produto;
+import dsenra.dao.ProdutoDao;
 import dsenra.domain.IPersistente;
+import dsenra.domain.Produto;
+import dsenra.exception.DaoException;
+import dsenra.exception.TipoChaveNaoEncontradaException;
 import dsenra.fabricas.FactoryProdutos;
 import dsenra.services.generic.GenericService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.sql.SQLException;
 
 public class ProdutoServiceTest<T extends IPersistente> {
     private Produto produto;
@@ -20,18 +25,19 @@ public class ProdutoServiceTest<T extends IPersistente> {
     }
 
     @Before
-    public void init() {
+    public void init() throws DaoException {
         produtoDao.listaElementos().clear();
         factoryProdutos = new FactoryProdutos(produtoDao);
         produto = null;
         produto = new Produto(1L,
                 "Lápis de Cor",
                 "Precisamos escrever nessa vida.",
-                2.80);
+                BigDecimal.valueOf(2.80),
+                8);
     }
 
     @Test
-    public void BuscarProdutoExpectsSuccess() {
+    public void BuscarProdutoExpectsSuccess() throws DaoException {
         factoryProdutos.cadastrar(produto);
         Produto produtoConsultado = (Produto) service.buscar((T) produto);
         Assert.assertNotNull(produtoConsultado);
@@ -40,7 +46,7 @@ public class ProdutoServiceTest<T extends IPersistente> {
     }
 
     @Test
-    public void AtualizarProdutoExpectsSuccess() {
+    public void AtualizarProdutoExpectsSuccess() throws SQLException, TipoChaveNaoEncontradaException, DaoException {
         factoryProdutos.cadastrar(produto);
         Produto produtoConsultado = (Produto) service.buscar((T) produto);
         boolean retorno = service.atualizar((T) produtoConsultado, (T) produtoConsultado);

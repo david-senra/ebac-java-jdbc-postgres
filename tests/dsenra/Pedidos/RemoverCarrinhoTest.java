@@ -6,7 +6,8 @@ import dsenra.domain.Cliente;
 import dsenra.domain.Produto;
 import dsenra.domain.mock.MockCliente;
 import dsenra.domain.mock.MockProduto;
-import dsenra.exception.ObjetoNaoEncontradoException;
+import dsenra.exception.DaoException;
+import dsenra.exception.TipoChaveNaoEncontradaException;
 import dsenra.fabricas.pedidos.FactoryCarrinho;
 import dsenra.fabricas.pedidos.IFactoryCarrinho;
 import org.junit.Assert;
@@ -24,7 +25,7 @@ public class RemoverCarrinhoTest {
     private final IFactoryCarrinho genericFactory = new FactoryCarrinho();
 
     @Before
-    public void init() {
+    public void init() throws DaoException {
         clienteDao = new ClienteDao();
         clienteDao.listaElementos().clear();
         clienteDao = new ClienteDao();
@@ -38,7 +39,7 @@ public class RemoverCarrinhoTest {
     }
 
     @Test
-    public void removerItemCarrinhoExpectSuccess() throws ObjetoNaoEncontradoException {
+    public void removerItemCarrinhoExpectSuccess() throws TipoChaveNaoEncontradaException, DaoException {
         clienteDao.cadastrar(mockCliente);
         produtoDao.cadastrar(mockProduto);
 
@@ -52,7 +53,7 @@ public class RemoverCarrinhoTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void removerItemAusenteCarrinhoExpectError() throws ObjetoNaoEncontradoException {
+    public void removerItemAusenteCarrinhoExpectError() throws TipoChaveNaoEncontradaException, DaoException {
         clienteDao.cadastrar(mockCliente);
         produtoDao.cadastrar(mockProduto);
         produtoDao.cadastrar(mockProduto2);

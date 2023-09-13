@@ -7,13 +7,15 @@ import dsenra.domain.Produto;
 import dsenra.domain.mock.MockCliente;
 import dsenra.domain.mock.MockProduto;
 import dsenra.domain.pedidos.ProdutoCarrinho;
-import dsenra.exception.ObjetoNaoEncontradoException;
+import dsenra.exception.DaoException;
+import dsenra.exception.TipoChaveNaoEncontradaException;
 import dsenra.fabricas.pedidos.FactoryCarrinho;
 import dsenra.fabricas.pedidos.IFactoryCarrinho;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,7 +30,7 @@ public class AdicionarCarrinhoTest {
     private final IFactoryCarrinho genericFactory = new FactoryCarrinho();
 
     @Before
-    public void init() {
+    public void init() throws DaoException {
         clienteDao = new ClienteDao();
         clienteDao.listaElementos().clear();
         clienteDao = new ClienteDao();
@@ -41,7 +43,7 @@ public class AdicionarCarrinhoTest {
         mockProduto2 = mockPr.getMockProdutoNaoCadastrado();
     }
     @Test
-    public void adicionarProdutoCarrinhoExpectSuccess() throws ObjetoNaoEncontradoException {
+    public void adicionarProdutoCarrinhoExpectSuccess() throws TipoChaveNaoEncontradaException, DaoException {
         clienteDao.cadastrar(mockCliente);
         produtoDao.cadastrar(mockProduto);
         produtoDao.cadastrar(mockProduto2);
@@ -59,7 +61,7 @@ public class AdicionarCarrinhoTest {
     }
 
     @Test
-    public void adicionarProdutoRepetidoCarrinhoExpectSuccess() throws ObjetoNaoEncontradoException {
+    public void adicionarProdutoRepetidoCarrinhoExpectSuccess() throws TipoChaveNaoEncontradaException, DaoException {
         clienteDao.cadastrar(mockCliente);
         produtoDao.cadastrar(mockProduto);
 
@@ -70,14 +72,14 @@ public class AdicionarCarrinhoTest {
 
         ProdutoCarrinho produtoCarrinho = mockCliente.verCarrinho().get(0);
         Assert.assertEquals(2, (long) produtoCarrinho.getQuantidade());
-        Assert.assertEquals((Double) (produtoCarrinho.getQuantidade() * produtoCarrinho.getPreco()),
+        Assert.assertEquals(produtoCarrinho.getPreco().multiply(BigDecimal.valueOf(produtoCarrinho.getQuantidade())),
                 produtoCarrinho.getPrecoQuantidade());
         clienteDao.listaElementos().clear();
         produtoDao.listaElementos().clear();
     }
 
     @Test
-    public void adicionarProdutosMistosCarrinhoExpectSuccess() throws ObjetoNaoEncontradoException {
+    public void adicionarProdutosMistosCarrinhoExpectSuccess() throws TipoChaveNaoEncontradaException, DaoException {
         clienteDao.cadastrar(mockCliente);
         produtoDao.cadastrar(mockProduto);
         produtoDao.cadastrar(mockProduto2);

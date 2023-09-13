@@ -5,11 +5,14 @@ import dsenra.dao.ProdutoDao;
 import dsenra.dao.generic.GenericDao;
 import dsenra.domain.Cliente;
 import dsenra.domain.IPersistente;
-import dsenra.exception.ObjetoNaoEncontradoException;
+import dsenra.exception.DaoException;
+import dsenra.exception.TipoChaveNaoEncontradaException;
+
+import java.sql.SQLException;
 
 public class GenericFactory<T extends IPersistente> implements IGenericFactory<T> {
 
-    private GenericDao<T> genericDao;
+    private GenericDao<T, Long> genericDao;
     private final ClienteDao clienteDao;
     private final ProdutoDao produtoDao;
 
@@ -23,7 +26,7 @@ public class GenericFactory<T extends IPersistente> implements IGenericFactory<T
         genericDao = getDao(objeto);
         try {
             genericDao.cadastrar(objeto);
-        } catch (ObjetoNaoEncontradoException e) {
+        } catch (TipoChaveNaoEncontradaException | DaoException e) {
             throw new RuntimeException(e);
         }
         return true;
@@ -33,15 +36,15 @@ public class GenericFactory<T extends IPersistente> implements IGenericFactory<T
     public boolean excluir(T objeto) {
         genericDao = getDao(objeto);
         try {
-            genericDao.excluir(objeto);
-        } catch (ObjetoNaoEncontradoException e) {
+            genericDao.excluir(objeto.getId());
+        } catch (DaoException | SQLException e) {
             throw new RuntimeException(e);
         }
         return true;
     }
 
-    public GenericDao<T> getDao(T objeto) {
-        if (objeto.getClass() == Cliente.class) return (GenericDao<T>) clienteDao;
-        else return (GenericDao<T>) produtoDao;
+    public GenericDao<T, Long> getDao(T objeto) {
+        if (objeto.getClass() == Cliente.class) return (GenericDao<T, Long>) clienteDao;
+        else return (GenericDao<T, Long>) produtoDao;
     }
 }

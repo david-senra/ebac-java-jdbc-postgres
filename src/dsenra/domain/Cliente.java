@@ -1,32 +1,51 @@
 package dsenra.domain;
 
+import dsenra.annotations.ColunaTabela;
+import dsenra.annotations.Tabela;
+import dsenra.annotations.TipoChave;
 import dsenra.domain.pedidos.Carrinho;
-import dsenra.domain.pedidos.Pedido;
 import dsenra.domain.pedidos.ProdutoCarrinho;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
+@Tabela("tb_cliente")
 public class Cliente implements IPersistente {
-    protected Long id;
-    private String nome;
-    private String sobrenome;
-    private String cpf;
-    private String telefone;
-    private String endereco;
-    private Long numeroEndereco;
-    private String bairro;
-    private String cidade;
-    private String estado;
-    private final Carrinho carrinho = new Carrinho();
-    private final List<Pedido> listaPedidos = new ArrayList<>();
 
-    public Cliente () {
+    private Carrinho carrinho;
+
+    @TipoChave("getId")
+    @ColunaTabela(dbName = "id", setJavaName = "setId")
+    protected Long id;
+
+    @ColunaTabela(dbName = "nome", setJavaName = "setNome")
+    private String nome;
+
+    @ColunaTabela(dbName = "sobrenome", setJavaName = "setSobrenome")
+    private String sobrenome;
+
+    @ColunaTabela(dbName = "cpf", setJavaName = "setCpf")
+    private String cpf;
+
+    @ColunaTabela(dbName = "telefone", setJavaName = "setTelefone")
+    private String telefone;
+
+    @ColunaTabela(dbName = "endereco", setJavaName = "setEndereco")
+    private String endereco;
+
+    @ColunaTabela(dbName = "numero_endereco", setJavaName = "setNumeroEndereco")
+    private Long numeroEndereco;
+
+    @ColunaTabela(dbName = "cidade", setJavaName = "setCidade")
+    private String cidade;
+
+    @ColunaTabela(dbName = "estado", setJavaName = "setEstado")
+    private String estado;
+
+    public Cliente() {
 
     }
 
-    public Cliente (Long id, String nome, String sobrenome, String cpf, String telefone, String endereco, String cidade, String estado) {
+    public Cliente(Long id, String nome, String sobrenome, String cpf, String telefone, String endereco, Long numero, String cidade, String estado) {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -35,6 +54,7 @@ public class Cliente implements IPersistente {
         this.endereco = endereco;
         this.cidade = cidade;
         this.estado = estado;
+        this.numeroEndereco = numero;
     }
 
     public Long getId() {
@@ -42,8 +62,8 @@ public class Cliente implements IPersistente {
     }
 
     @Override
-    public Cliente getObjectData() {
-        return this;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -68,10 +88,6 @@ public class Cliente implements IPersistente {
 
     public Long getNumeroEndereco() {
         return numeroEndereco;
-    }
-
-    public String getBairro() {
-        return bairro;
     }
 
     public String getCidade() {
@@ -106,10 +122,6 @@ public class Cliente implements IPersistente {
         this.numeroEndereco = numeroEndereco;
     }
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
     public void setCidade(String cidade) {
         this.cidade = cidade;
     }
@@ -119,30 +131,27 @@ public class Cliente implements IPersistente {
     }
 
     public List<ProdutoCarrinho> verCarrinho() {
-        if (carrinho.getListaProdutos().size() > 0) return carrinho.getListaProdutos();
-        else return null;
-    }
-
-    public ProdutoCarrinho buscarNoCarrinho(Produto produto) {
-        Stream<ProdutoCarrinho> resultadoBusca = carrinho.getListaProdutos().stream()
-                .filter(produtoFisico -> produtoFisico.getNome().equals(produto.getNome()));
-        return resultadoBusca.toList().get(0);
-    }
-
-    public void limparCarrinho() {
-        carrinho.limparCarrinho();
+        return carrinho.getListaProdutos();
     }
 
     public void adicionarProduto(Produto produto) {
-        carrinho.adicionarProduto(produto);
+
+    }
+
+    public Produto buscarNoCarrinho(Produto produto) {
+        return produto;
     }
 
     public void removerProduto(Produto produto) {
-        carrinho.removerProduto(produto);
+
+    }
+
+    public void limparCarrinho() {
+
     }
 
     public void adicionarPedido() {
-        listaPedidos.add(new Pedido(listaPedidos.size(), "Hoje", "Agora", carrinho));
-        carrinho.limparCarrinho();
+
     }
+
 }

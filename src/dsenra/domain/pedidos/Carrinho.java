@@ -2,13 +2,14 @@ package dsenra.domain.pedidos;
 
 import dsenra.domain.Produto;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Carrinho {
     private final Map<Long, ProdutoCarrinho> listaProdutos = new HashMap<>();
-    private Double precoTotal;
+    private BigDecimal precoTotal;
 
     public void adicionarProduto(Produto produto) {
         ProdutoCarrinho produtoEncontrado = listaProdutos.get(produto.getId());
@@ -27,14 +28,14 @@ public class Carrinho {
         return produtoEncontrado.getQuantidade();
     }
 
-    public Double getPrecoTotalProduto(Produto produto) {
+    public BigDecimal getPrecoTotalProduto(Produto produto) {
         ProdutoCarrinho produtoEncontrado = listaProdutos.get(produto.getId());
         return produtoEncontrado.getPrecoQuantidade();
     }
 
-    public Double getPrecoTotal() {
-        precoTotal = 0d;
-        listaProdutos.forEach((key, produto) -> precoTotal += produto.getPrecoQuantidade());
+    public BigDecimal getPrecoTotal() {
+        precoTotal = BigDecimal.valueOf(0d);
+        listaProdutos.forEach((key, produto) -> precoTotal.add(produto.getPrecoQuantidade()));
         return precoTotal;
     }
 

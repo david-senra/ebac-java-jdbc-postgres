@@ -1,13 +1,17 @@
 package dsenra.Servicos;
 
-import dsenra.dao.*;
+import dsenra.dao.ClienteDao;
 import dsenra.domain.Cliente;
 import dsenra.domain.IPersistente;
+import dsenra.exception.DaoException;
+import dsenra.exception.TipoChaveNaoEncontradaException;
 import dsenra.fabricas.generic.GenericFactory;
 import dsenra.services.generic.GenericService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.SQLException;
 
 public class ClientServiceTest<T extends IPersistente> {
     private Cliente cliente;
@@ -21,21 +25,21 @@ public class ClientServiceTest<T extends IPersistente> {
     }
 
     @Before
-    public void init() {
+    public void init() throws DaoException {
         clienteDao.listaElementos().clear();
-        cliente = null;
         cliente = new Cliente(1L,
                 "Chico",
                 "Bento",
                 "123.123.123-12",
                 "(41) 98642-4287",
                 "Rua das Glórias",
+                25L,
                 "Natal",
                 "RN");
     }
 
     @Test
-    public void BuscarClienteExpectsSuccess() {
+    public void BuscarClienteExpectsSuccess() throws DaoException {
         factory.cadastrar((T) cliente);
         Cliente clienteConsultado = (Cliente) service.buscar((T) cliente);
         Assert.assertNotNull(clienteConsultado);
@@ -45,7 +49,7 @@ public class ClientServiceTest<T extends IPersistente> {
     }
 
     @Test
-    public void AtualizarClienteExpectsSuccess() {
+    public void AtualizarClienteExpectsSuccess() throws SQLException, TipoChaveNaoEncontradaException, DaoException {
         factory.cadastrar((T) cliente);
         Cliente clienteConsultado = (Cliente) service.buscar((T) cliente);
         Assert.assertNotNull(clienteConsultado);

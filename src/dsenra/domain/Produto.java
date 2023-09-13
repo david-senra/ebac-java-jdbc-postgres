@@ -1,20 +1,40 @@
 package dsenra.domain;
 
-public class Produto implements IPersistente {
-    protected Long codigo;
-    protected String nome;
-    protected String descricao;
-    protected Double preco;
+import dsenra.annotations.ColunaTabela;
+import dsenra.annotations.Tabela;
+import dsenra.annotations.TipoChave;
 
-    public Produto () {
+import java.math.BigDecimal;
+
+@Tabela("tb_produto")
+public class Produto implements IPersistente {
+
+    @TipoChave("getId")
+    @ColunaTabela(dbName = "id", setJavaName = "setId")
+    protected Long codigo;
+
+    @ColunaTabela(dbName = "nome", setJavaName = "setNome")
+    protected String nome;
+
+    @ColunaTabela(dbName = "descricao", setJavaName = "setDescricao")
+    protected String descricao;
+
+    @ColunaTabela(dbName = "preco", setJavaName = "setPreco")
+    protected BigDecimal preco;
+
+    @ColunaTabela(dbName = "estoque", setJavaName = "setEstoque")
+    protected Integer estoque;
+
+    public Produto() {
 
     }
 
-    public Produto (Long codigo, String nome, String descricao, Double preco) {
+    public Produto(Long codigo, String nome, String descricao, BigDecimal preco, Integer estoque) {
         this.codigo = codigo;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
+        this.estoque = estoque;
     }
 
     public String getNome() {
@@ -33,11 +53,11 @@ public class Produto implements IPersistente {
         this.descricao = descricao;
     }
 
-    public Double getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(Double preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 
@@ -47,7 +67,19 @@ public class Produto implements IPersistente {
     }
 
     @Override
-    public Produto getObjectData() {
-        return this;
+    public void setId(Long codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
+
+    public Integer getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
     }
 }

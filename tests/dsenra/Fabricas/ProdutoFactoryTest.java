@@ -1,7 +1,6 @@
 package dsenra.Fabricas;
 
-import dsenra.dao.IProdutoDao;
-import dsenra.dao.mocks.ProdutoDaoMock;
+import dsenra.dao.ProdutoDao;
 import dsenra.domain.Produto;
 import dsenra.fabricas.FactoryProdutos;
 import dsenra.fabricas.IFactoryProdutos;
@@ -9,12 +8,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 public class ProdutoFactoryTest {
     private final IFactoryProdutos produtoFactory;
     private Produto produto;
 
     public ProdutoFactoryTest() {
-        IProdutoDao produtoDao = new ProdutoDaoMock();
+        ProdutoDao produtoDao = new ProdutoDao();
         produtoFactory = new FactoryProdutos(produtoDao);
     }
 
@@ -23,7 +24,7 @@ public class ProdutoFactoryTest {
         produto = new Produto();
         produto.setNome("Xícara");
         produto.setDescricao("Uma xícara para um bom café");
-        produto.setPreco(14.90);
+        produto.setPreco(BigDecimal.valueOf(14.90));
     }
 
     @Test

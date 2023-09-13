@@ -2,6 +2,8 @@ package dsenra.domain.pedidos;
 
 import dsenra.domain.Produto;
 
+import java.math.BigDecimal;
+
 public class ProdutoCarrinho extends Produto {
     private Long quantidade = 1L;
 
@@ -19,8 +21,8 @@ public class ProdutoCarrinho extends Produto {
         return quantidade;
     }
 
-    public Double getPrecoQuantidade() {
-        return getQuantidade() * getPreco();
+    public BigDecimal getPrecoQuantidade() {
+        return getPreco().multiply(BigDecimal.valueOf(getQuantidade()));
     }
 
     public Produto getProduto() {
