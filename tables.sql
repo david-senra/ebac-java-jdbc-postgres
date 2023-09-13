@@ -45,6 +45,14 @@ create table tb_produto_quantidade (
 	constraint fk_id_prodquant_venda foreign key (id_venda_fk) references tb_venda(id)
 );
 
+create table tb_estoque (
+	id bigint,
+	id_produto_fk bigint not null,
+	estoque int not null,
+	constraint pk_id_prodest primary key (id),
+	constraint fk_id_prodest_produto foreign key (id_produto_fk) references tb_produto(id),
+);
+
 create sequence sq_cliente
 start 1
 increment 1
@@ -65,21 +73,10 @@ start 1
 increment 1
 owned by tb_produto_quantidade.id;
 
-select * from tb_cliente;
-truncate table tb_cliente;
-drop table tb_cliente;
-
-select * from tb_produto;
-truncate table tb_produto;
-drop table tb_produto;
-
-select * from tb_venda;
-truncate table tb_venda;
-drop table tb_venda;
-
-select * from tb_produto_quantidade;
-truncate table tb_produto_quantidade;
-drop table tb_produto_quantidade;
+create sequence sq_estoque
+start 1
+increment 1
+owned by tb_estoque.id;
 
 select v.id as id_venda, v.codigo, v.id_cliente_fk, v.valor_total, v.data_venda, v.status_venda,
 c.id as id_cliente, c.nome, c.cpf, c.telefone, c.endereco, c.numero_endereco, c.cidade, c.estado,
@@ -93,3 +90,8 @@ select pq.id, pq.quantidade, pq.valor_total,
 p.id as id_produto, p.codigo, p.nome, p.descricao, p.preco
 from tb_produto_quantidade pq
 inner join tb_produto p on p.id = pq.id_produto_fk;
+
+select pe.id, pe.estoque,
+p.id as id_produto, p.codigo, p.nome, p.descricao, p.preco
+from tb_estoque pe
+inner join tb_produto p on p.id = pe.id_produto_fk;
