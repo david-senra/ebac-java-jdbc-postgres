@@ -18,6 +18,7 @@ create table tb_produto (
 	nome varchar(50) not null,
 	descricao text default('NC'),
 	preco numeric(10,2) default(0),
+	estoque int not null,
 	constraint pk_id_produto primary key (id),
 	constraint uq_codigo_produto unique (codigo)
 );
